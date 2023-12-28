@@ -8,7 +8,14 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
+import { Concert } from './concert/entities/concert.entity';
 import { ConcertModule } from './concert/concert.module';
+import { Booking } from './booking/entities/booking.entity';
+import { BookingModule } from './booking/booking.module';
+import { Schedule } from './schedule/entities/schedule.entity';
+import { ScheduleModule } from './schedule/schedule.module';
+import { ConcertHall } from './concert-hall/entities/concert-hall.entity';
+import { ConcertHallModule } from './concert-hall/concert-hall.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -21,7 +28,7 @@ const typeOrmModuleOptions = {
     host: configService.get('DB_HOST'),
     port: configService.get('DB_PORT'),
     database: configService.get('DB_NAME'),
-    entities: [User], // 엔티티는 반드시 여기에 명시!
+    entities: [User, Concert, Booking, Schedule, ConcertHall], // 엔티티는 반드시 여기에 명시!
     synchronize: configService.get('DB_SYNC'),
     logging: true,
   }),
@@ -46,6 +53,9 @@ const typeOrmModuleOptions = {
     AuthModule,
     UserModule,
     ConcertModule,
+    BookingModule,
+    ScheduleModule,
+    ConcertHallModule,
   ],
   controllers: [],
   providers: [],
