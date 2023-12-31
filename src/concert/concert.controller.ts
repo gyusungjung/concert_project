@@ -38,9 +38,9 @@ export class ConcertController {
     return await this.concertService.findOne(concertId);
   }
 
-  @Roles(Role.Admin)
   //공연일괄생성
   @Post('upload')
+  @Roles(Role.Admin)
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
     if (!file) {
@@ -64,9 +64,9 @@ export class ConcertController {
     return this.concertService.createConcert(createConcertDto);
   }
 
-  @Roles(Role.Admin)
   //공연수정
   @Put(':concertId')
+  @Roles(Role.Admin)
   async update(
     @Param('concertId') concertId: number,
     @Body() updateConcertDto: UpdateConcertDto,
@@ -74,8 +74,8 @@ export class ConcertController {
     await this.concertService.update(concertId, updateConcertDto);
   }
 
-  @Roles(Role.Admin)
   @Delete(':concertId')
+  @Roles(Role.Admin)
   async delete(@Param('concertId') concertId: number) {
     await this.concertService.delete(concertId);
   }
