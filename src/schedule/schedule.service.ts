@@ -22,7 +22,8 @@ export class ScheduleService {
   ) {}
 
   async create(createScheduleDto: CreateScheduleDto): Promise<Schedule> {
-    const { hallId, concertId, startAt } = createScheduleDto;
+    const { hallId, concertId, startAt, priceS, priceA, priceB } =
+      createScheduleDto;
 
     // 공연장과 공연의 존재 유효성 검사
     const concertHall = await this.concertHallRepository.findOneBy({ hallId });
@@ -41,7 +42,15 @@ export class ScheduleService {
     }
 
     // 스케줄 생성
-    const schedule = this.scheduleRepository.create(createScheduleDto);
+    const schedule = this.scheduleRepository.create({
+      concertHall,
+      concert,
+      startAt,
+      priceS,
+      priceA,
+      priceB,
+      status: 'On_sale', // 기본 상태 설정
+    });
     await this.scheduleRepository.save(schedule);
     return schedule;
   }

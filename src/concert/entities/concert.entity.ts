@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 
@@ -34,9 +36,9 @@ export class Concert {
   })
   image: string;
 
-  @Column({ type: 'datetime', nullable: false })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ type: 'datetime', nullable: false })
+  @UpdateDateColumn()
   updatedAt: Date;
 }

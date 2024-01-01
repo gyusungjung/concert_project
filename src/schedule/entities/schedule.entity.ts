@@ -7,6 +7,8 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Concert } from 'src/concert/entities/concert.entity';
 import { ConcertHall } from 'src/concert-hall/entities/concert-hall.entity';
@@ -40,10 +42,10 @@ export class Schedule {
   @Column({ type: 'enum', enum: ['Sold_out', 'On_sale'] })
   status: string;
 
-  @Column({ type: 'datetime' })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ type: 'datetime' })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @OneToMany(() => Booking, (booking) => booking.scheduleId)

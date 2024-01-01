@@ -4,8 +4,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
+import { Schedule } from 'src/schedule/entities/schedule.entity';
 // 엔티티 정의후 다시 import { Schedule } from 'src/schedule/entities/schedule.entity';
 
 @Entity('Booking')
@@ -25,20 +28,23 @@ export class Booking {
   @Column()
   grade: string;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'int' })
+  price: number;
+
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ type: 'datetime' })
+  @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column({ type: 'enum', enum: ['buy', 'refund'] })
-  status: 'buy' | 'refund';
+  @Column({ type: 'enum', enum: ['booked', 'refunded'], default: 'booked' })
+  status: 'booked' | 'refunded';
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  //@ManyToOne(() => Schedule)
-  //@JoinColumn({ name: 'scheduleId' })
-  //schedule: Schedule;
+  @ManyToOne(() => Schedule)
+  @JoinColumn({ name: 'scheduleId' })
+  schedule: Schedule;
 }

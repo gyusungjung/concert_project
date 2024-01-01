@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  UpdateDateColumn,
+  CreateDateColumn,
+} from 'typeorm';
 import { Schedule } from 'src/schedule/entities/schedule.entity'; // 필요한 경우 Schedule 엔티티 import
 
 @Entity({ name: 'concert-halls' })
@@ -18,10 +25,10 @@ export class ConcertHall {
   @Column({ type: 'int', nullable: true })
   gradeB: number | null;
 
-  @Column({ type: 'datetime', nullable: false })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ type: 'datetime', nullable: false })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   // ConcertHall과 Schedule 사이의 관계 설정 (필요한 경우)

@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  UpdateDateColumn,
+  CreateDateColumn,
+} from 'typeorm';
 import { Concert } from 'src/concert/entities/concert.entity'; // 필요한 경우 Concert 엔티티 import
 
 @Entity({ name: 'users' })
@@ -21,10 +28,10 @@ export class User {
   @Column({ type: 'int', default: 1000000 })
   point: number;
 
-  @Column({ type: 'datetime' })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ type: 'datetime' })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   // User와 Concert 사이의 관계 설정 (필요한 경우)
