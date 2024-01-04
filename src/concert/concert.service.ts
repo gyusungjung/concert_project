@@ -24,7 +24,7 @@ export class ConcertService {
 
   async findAll(): Promise<Concert[]> {
     return await this.concertRepository.find({
-      select: ['concertId', 'title'],
+      select: ['concertId', 'category', 'title'],
     });
   }
 
@@ -32,20 +32,38 @@ export class ConcertService {
     return await this.verifyConcertById(concertId);
   }
 
-  async handleFileUpload(file: Express.Multer.File): Promise<string> {
-    const uploadDir = 'uploads';
-    const fileName = `${Date.now()}-${file.originalname}`;
-    const filePath = path.join(uploadDir, fileName);
-
-    // 파일 저장
-    fs.writeFileSync(filePath, file.buffer);
-
-    // 파일 URL 반환
-    return `${uploadDir}/${fileName}`;
+  async showSearch(keyword: string) {
+    if (_.isNaN(keyword)) {
+      throw new BadRequestException('검색결과가 존재하지 않습니다.');
+    }
+    const resultConcert = await this.concertRepository
+      .createQueryBuilder('concert')
+      .where('concert.title LIKE :keyword', { keyword: `%${keyword}%` })
+      .getMany();
+    return resultConcert;
   }
 
-  async createConcert(createConcertDto: CreateConcertDto): Promise<Concert> {
-    const newConcert = this.concertRepository.create(createConcertDto);
+  // async handleFileUpload(file: Express.Multer.File): Promise<string> {
+  //   const uploadDir = 'uploads';
+  //   const fileName = `${Date.now()}-${file.originalname}`;
+  //   const filePath = path.join(uploadDir, fileName);
+
+  //   // 파일 저장
+  //   fs.writeFileSync(filePath, file.buffer);
+
+  //   // 파일 URL 반환
+  //   return `${uploadDir}/${fileName}`;
+  // }
+
+  async createConcert(
+    createConcertDto: CreateConcertDto,
+    userId: number,
+  ): Promise<Concert> {
+    const newConcert = this.concertRepository.create({
+      ...createConcertDto,
+      user: { userId: userId },
+    });
+    console.log(newConcert);
     return await this.concertRepository.save(newConcert);
   }
 

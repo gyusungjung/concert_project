@@ -65,7 +65,8 @@ export class UserService {
       throw new UnauthorizedException('비밀번호를 확인해주세요.');
     }
 
-    const payload = { email, sub: user.userId };
+    const payload = { email, userId: user.userId };
+    console.log('payload :', payload);
     return {
       access_token: this.jwtService.sign(payload),
     };
@@ -73,5 +74,13 @@ export class UserService {
 
   async findByEmail(email: string) {
     return await this.userRepository.findOneBy({ email });
+  }
+
+  async findOne(userId: number): Promise<User | undefined> {
+    return this.userRepository.findOneBy({ userId });
+  }
+
+  async updateUserPoints(user: any) {
+    await this.userRepository.save(user);
   }
 }

@@ -41,6 +41,11 @@ export class ScheduleService {
       throw new BadRequestException('공연 시작 시간은 미래여야 합니다.');
     }
 
+    //좌석 가격이 최대 5만원, 5만원 넘으면 오류
+    if (priceS > 50000 || priceA > 50000 || priceB > 50000) {
+      throw new BadRequestException('좌석 가격은 5만원을 넘길 수 없습니다.');
+    }
+
     // 스케줄 생성
     const schedule = this.scheduleRepository.create({
       concertHall,

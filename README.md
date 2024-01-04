@@ -74,3 +74,7 @@ Nest is [MIT licensed](LICENSE).
 
 https://github.com/gyusungjung/concert_project
 https://github.com/gyusungjung/concert_project.git
+
+git config --global core.autocrlf false
+
+update users set is_admin = '1' where user_id = 3;
